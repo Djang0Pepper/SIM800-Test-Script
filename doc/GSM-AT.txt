@@ -1,0 +1,15 @@
+******************Call******************
+
+ATA - ANSWER THE CALL
+ATH - END CALL
+ATDbr.telefon; - CALL NUMBER
+ATL[0-9] - jacina zvuka
+ATM[0-9] set speaker mode
+
+
+******************SMS******************
+AT+CMGS="phone number" 
+> some text (Ctrl+Z)
+
+AT+CMGR = 1 read arrived msg
+
