@@ -1,9 +1,9 @@
 import serial
 import time
 
-MINE = "+381643354778"
+MINE = "+38164******8"
 
-PHONE_NMBR = NMAKSIMOVIC
+PHONE_NMBR = SOME_PHONE_NUMBER
 
 class TextMessage:
 	def __init__(self, recipient=PHONE_NMBR, message="TextMessage.content not set."):

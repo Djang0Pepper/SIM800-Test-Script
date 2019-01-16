@@ -1,11 +1,11 @@
 import serial
 import time
 
-SERVER 	= "api-demo.wolkabout.com"
-PORT 	= 1883 
+SERVER 	= "server_url_or_ip"
+PORT 	= 0 
 
 class UbloxSaraU201:
-	def __init__(self, destination="api-demo.wolkabout.com", port=1883, command=""):
+	def __init__(self, destination="server_url_or_ip", port=0, command=""):
 		self.destination = destination
 		self.port = port
 		self.command = command
@@ -28,7 +28,7 @@ class UbloxSaraU201:
 
 print("************************** START **************************")
 
-list_of_commands = ["AT+COPS?", "AT+CGDCONT=1,\"IP\",\"m2m.tele2.com\"", "AT+CGEQREQ=1,3,64,64,,,0,320,\"1E4\",\"1E5\",1,,3", "AT+UPSND=1,8", "AT+UPSD=1,1,\"m2m.tele2.com\"", "AT+UPSD=1,2,\"vipmobile\"", "AT+UPSD=1,3,\"vipmobile\"", "AT+UPSD=1,7,\"0.0.0.0\"", "AT+UPSDA=1,1", "AT+UPSDA=1,3", "AT+UIPCONF=?", "AT+UPING=\"api-demo.wolkabout.com\""]
+list_of_commands = ["AT+COPS?", "AT+CGDCONT=1,\"IP\",\"m2m.tele2.com\"", "AT+CGEQREQ=1,3,64,64,,,0,320,\"1E4\",\"1E5\",1,,3", "AT+UPSND=1,8", "AT+UPSD=1,1,\"m2m.tele2.com\"", "AT+UPSD=1,2,\"vipmobile\"", "AT+UPSD=1,3,\"vipmobile\"", "AT+UPSD=1,7,\"0.0.0.0\"", "AT+UPSDA=1,1", "AT+UPSDA=1,3", "AT+UIPCONF=?"]
 
 connect = UbloxSaraU201(SERVER, PORT)
 connect.openComPort()
