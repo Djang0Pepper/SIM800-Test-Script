@@ -4,7 +4,8 @@ This repo consist python srcipt which test SIM800H module over COM/ttyXX port.
 
 ## Prerequest
  * python 3
- * [pyserial](https://pyserial.readthedocs.io/en/latest/pyserial.html)
+ * pip
+ * install requirements libraries as: `pip install -r requirements.txt`
 
  ## Example of Usage
   * Insert your **COMPORT_NAME** in sim800h.py
