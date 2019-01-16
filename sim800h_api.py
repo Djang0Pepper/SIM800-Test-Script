@@ -1,6 +1,6 @@
 #!/usr/bin/python2
 '''
-Project	 	: Offone
+Project	 	: SIM800 test script 
 Date&Time	: 20th Jun 2018.
 Description	: This module consists all API's nececeary for testing SIMcom SIM800H module
 		http://simcomm2m.com/En/module/detail.aspx?id=75
@@ -53,12 +53,12 @@ class SIM800H:
 	def sendSms(self):
 		try:
 		    number = raw_input('To >> ')
-		except Exception, e:
+		except Exception:
 		    logging_device.debug('Error: ' + str(e))
 		    return False
 		try:
 		    message = raw_input('Insert Message >> ')
-		except Exception, e:
+		except Exception:
 		    logging_device.debug('Error: ' + str(e))
 		    return False
 
@@ -82,7 +82,7 @@ class SIM800H:
 	def call(self):
 		try:
 		    number = raw_input('Insert Number >> ')
-		except Exception, e:
+		except Exception:
 		    logging_device.debug('Error: ' + str(e))
 		    return False
 
@@ -99,7 +99,7 @@ class SIM800H:
 
 		try:
 			number = raw_input('Call established press ENTER if want to END call >> ')
-		except Exception, e:
+		except Exception:
 			logging_device.debug('Error: ' + str(e))
 			return False
 
