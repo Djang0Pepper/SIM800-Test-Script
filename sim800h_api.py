@@ -1,11 +1,12 @@
 #!/usr/bin/python2
 '''
 Project	 	: SIM800 test script 
-Date&Time	: 20th Jun 2018.
+Date&Time	: 08th August 2019.
 Description	: This module consists all API's nececeary for testing SIMcom SIM800H module
 		http://simcomm2m.com/En/module/detail.aspx?id=75
 '''
 import serial
+import logging
 import time, sys, codecs
 
 class SIM800H:
@@ -22,14 +23,14 @@ class SIM800H:
 			self.ser = serial.Serial(self.portName, self.baudRate, timeout=self.timeout, bytesize=self.bytesize, parity=self.parity, stopbits=self.stopbits)
 			time.sleep(0.5)
 		except:
-			print("Couldn't open desired tty port: " + self.portName)
+			logging.error("Couldn't open desired tty port: " + self.portName)
 			sys.exit()
 
 	def closeComPort(self):
 		try:
 			self.ser.close()
 		except:
-			print("Couldn't close tty port")
+			logging.error("Couldn't close tty port")
 			sys.exit()
 
 	def sendAtCommand(self, command):
@@ -37,7 +38,7 @@ class SIM800H:
 		try:
 			self.ser.write(command + '\r')
 			received=self.ser.read(20)
-			#print("[LOG] - " + received)
+			logging.debug(received)
 			if "ERROR" in received:
 				return False		
 			return received
@@ -53,28 +54,28 @@ class SIM800H:
 	def sendSms(self):
 		try:
 		    number = raw_input('To >> ')
-		except Exception:
-		    logging_device.debug('Error: ' + str(e))
+		except Exception as e:
+		    logging.error('Error: ' + str(e))
 		    return False
 		try:
 		    message = raw_input('Insert Message >> ')
-		except Exception:
-		    logging_device.debug('Error: ' + str(e))
+		except Exception as e:
+		    logging.error('Error: ' + str(e))
 		    return False
 
 		print("\n\r...sending SMS")
 		if not self.sendAtCommand("AT+CMGF=1"):
-			print("[FAILED] - to send AT command: AT+CMGF=1")
+			logging.error("To send AT command: AT+CMGF=1")
 			return False
 		if not self.sendAtCommand("AT+CMGS=\"" + number + "\""):
-			print("[FAILED] - to send AT command: AT+CMGS=")
+			logging.error("To send AT command: AT+CMGS=")
 			return False
 		if not self.sendAtCommand(message):
-			print("[FAILED] - to send AT command: message content")
+			logging.error("To send AT command: message content")
 			return False
 
 		if not self.sendAtCommand("1A".decode("hex")):
-			print("[FAILED] - to send AT command: Ctrl+Z")
+			logging.error("To send AT command: Ctrl+Z")
 			return False
 
 		return True
@@ -82,29 +83,29 @@ class SIM800H:
 	def call(self):
 		try:
 		    number = raw_input('Insert Number >> ')
-		except Exception:
-		    logging_device.debug('Error: ' + str(e))
+		except Exception as e:
+		    logging.error(str(e))
 		    return False
 
 		print("\n\r...processing call")
 		if not self.sendAtCommand("ATD" + number + ";"):
-			print("[FAILED] - to send AT command: ATD")
+			logging.error("To send AT command: ATD")
 			return False
 		if not self.sendAtCommand("ATL9"):
-			print("[FAILED] - to send AT command: ATL")
+			logging.error("To send AT command: ATL")
 			return False
 		if not self.sendAtCommand("ATM9"):
-			print("[FAILED] - to send AT command: ATM")
+			logging.error("To send AT command: ATM")
 			return False
 
 		try:
 			number = raw_input('Call established press ENTER if want to END call >> ')
-		except Exception:
-			logging_device.debug('Error: ' + str(e))
+		except Exception as e:
+			logging.error(str(e))
 			return False
 
 		if not self.sendAtCommand("ATH"):
-			print("[FAILED] - to send AT command: ATH")
+			logging.error("To send AT command: ATH")
 			return False
 		
 		return True
