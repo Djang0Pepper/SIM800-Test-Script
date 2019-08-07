@@ -1,21 +1,19 @@
 #!/usr/bin/python2
 '''
 Project	 	: SIM800 test script 
-Date&Time	: 19th Jun 2018.
+Date&Time	: 08th August 2019.
 Description	: This is test script for SIMcom SIM800H module
 		http://simcomm2m.com/En/module/detail.aspx?id=75
 '''
 import time, sys
+import logging
 from sim800h_api import SIM800H
 
 
 COMPORT_NAME 	= "/dev/ttyUSB0"
-VERSION			= "0.0.2"
+VERSION		= "0.0.3"
 
 def main():
-	sim800h = SIM800H(portName=COMPORT_NAME)
-	sim800h.openComPort()
-
 	print("..######..####.##.....##..#######....#####.....#####...##.....##\
 \n\r.##....##..##..###...###.##.....##..##...##...##...##..##.....##\
 \n\r.##........##..####.####.##.....##.##.....##.##.....##.##.....##\
@@ -25,8 +23,14 @@ def main():
 \n\r..######..####.##.....##..#######....#####.....#####...##.....##\
 " + "\n\r\t Test module written for SIMcom SIM800H module \n\r\t\t\t   v" + VERSION)	
 
+        logging.basicConfig(level=logging.DEBUG)
+
+        sim800h = SIM800H(portName=COMPORT_NAME)
+	sim800h.openComPort()
+
+
 	if not sim800h.checkCommunication():
-		print("[FAILED] - couldn't communicate with module")
+		logging.error("Couldn't communicate with module")
 		sys.exit()
 
 	while 1:
@@ -34,22 +38,23 @@ def main():
 		try:
 		    in_selection = ''
 		    in_selection = raw_input('>> ')
-		except Exception:
-		    logging_device.debug('Error: ' + str(e))
+		except Exception as e:
+		    logging.debug('Error: ' + str(e))
 		    break
 		else:
 		    if in_selection == '1':
-			    if not sim800h.sendSms():
-				    print("[FAILED] - Send SMS")
-			    print("SMS sent successfully")
-
+			    if sim800h.sendSms():
+			        print("SMS sent successfully")
+                            else:
+			        logging.error("Send SMS")
 		    elif in_selection == '2':	                
-			    if not sim800h.call():
-				    print("[FAILED] - to Make a call")
-			    print("Successfully ended call")
+			    if sim800h.call():
+	            	        print("Successfully ended call")
+                            else:
+				 logging.error("To Make a call")
 
 		    elif in_selection == 'q':
-			    sim800h.openComPort()
+			    sim800h.closeComPort()
 			    print("Thank you for using SIM800H app")
 			    time.sleep(0.3)
 			    sys.exit()
