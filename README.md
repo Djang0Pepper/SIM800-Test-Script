@@ -4,7 +4,7 @@ This repo consist python srcipt which test SIM800H module over COM/ttyXX port. C
 This script is implemented as console menu application. Through console two actions are suported, making a call and sending message.
 
 ## Prerequest
- * python 3
+ * python 2
  * pip
  * install requirements libraries as: `pip install -r requirements.txt`
 
